@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include tencent_integration *.css
+recursive-include tencent_integration *.csv
+recursive-include tencent_integration *.html
+recursive-include tencent_integration *.ico
+recursive-include tencent_integration *.js
+recursive-include tencent_integration *.json
+recursive-include tencent_integration *.md
+recursive-include tencent_integration *.png
+recursive-include tencent_integration *.py
+recursive-include tencent_integration *.svg
+recursive-include tencent_integration *.txt
+recursive-exclude tencent_integration *.pyc
