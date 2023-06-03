@@ -1,0 +1,82 @@
+{
+    "autoname": "hash",
+    "creation": "2021-09-30 12:00:00.000000",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "fields": [
+     {
+      "fieldname": "action",
+      "fieldtype": "Data",
+      "label": "Action",
+      "in_list_view": 1,
+      "reqd": 1
+     },
+     {
+        "fieldname": "company",
+        "fieldtype": "Link",
+        "label": "Company",
+        "reqd": 1,
+        "in_list_view": 1,
+        "options": "Company"
+     },
+     {
+      "fieldname": "version",
+      "fieldtype": "Data",
+      "label": "Version",
+      "in_list_view": 1,
+      "reqd": 1
+     },
+     {
+      "fieldname": "end_point",
+      "fieldtype": "Data",
+      "label": "End Point",
+      "in_list_view": 1,
+      "reqd": 1
+     },
+     {
+      "fieldname": "region",
+      "fieldtype": "Data",
+      "label": "Region",
+      "reqd": 0
+     },
+     {
+      "fieldname": "sdk_app_id",
+      "fieldtype": "Data",
+      "label": "SDK App ID",
+      "in_list_view": 1,
+      "reqd": 1
+     },
+     {
+      "fieldname": "sdk_app_secret",
+      "fieldtype": "Password",
+      "label": "SDK App Secret",
+      "reqd": 0
+     },
+     {
+      "fieldname": "sign_name",
+      "fieldtype": "Data",
+      "label": "Sign Name",
+      "reqd": 0
+     }
+    ],
+    "modified": "2021-09-30 12:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Tencent Integration",
+    "name": "Tencent Integration Settings",
+    "owner": "Administrator",
+    "is_submittable": 1,
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "permissions": [
+     {
+      "create": 1,
+      "delete": 1,
+      "read": 1,
+      "role": "System Manager",
+      "write": 1
+     }
+    ],
+    "title_field": "action"
+   }
+   

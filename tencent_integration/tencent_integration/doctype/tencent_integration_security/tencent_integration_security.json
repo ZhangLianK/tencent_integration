@@ -1,0 +1,53 @@
+{
+    "autoname": "hash",
+    "creation": "2021-09-30 12:00:00.000000",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "fields": [
+        {
+            "fieldname": "action",
+            "fieldtype": "Data",
+            "label": "Action",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "company",
+            "fieldtype": "Link",
+            "label": "Company",
+            "options": "Company",
+            "in_list_view": 1,
+            "reqd": 1
+        },
+        {
+            "fieldname": "secret_id",
+            "fieldtype": "Data",
+            "label": "Secret ID",
+            "in_list_view": 1,
+            "reqd": 1
+        },
+        {
+            "fieldname": "secret_key",
+            "fieldtype": "Password",
+            "label": "Secret Key",
+            "reqd": 1
+        }
+    ],
+    "modified": "2021-09-30 12:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Tencent Integration",
+    "is_submittable": 1,
+    "name": "Tencent Integration Security",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "read": 1,
+            "role": "System Manager",
+            "write": 1
+        }
+    ],
+    "title_field": "action"
+}
