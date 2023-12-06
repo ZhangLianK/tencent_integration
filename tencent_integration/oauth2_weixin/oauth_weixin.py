@@ -142,7 +142,7 @@ def get_info_via_oauth(
 		args["decoder"] = decoder
 
 	session = flow.get_auth_session(**args)
-	frappe.log_error('oauth session',json.dumps(session.__dict__))
+	#frappe.log_error('oauth session',json.dumps(session.__dict__))
 
 	if id_token:
 		parsed_access = json.loads(session.access_token_response.text)
