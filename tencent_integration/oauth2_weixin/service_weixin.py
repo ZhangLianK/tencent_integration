@@ -5,7 +5,7 @@
 
     Provides OAuth 1.0/a, 2.0 and Ofly service containers.
 '''
-
+import frappe
 from rauth.compat import urlencode
 from rauth.session import OAuth1Session, OAuth2Session, OflySession
 from rauth.utils import ENTITY_METHODS, parse_utf8_qsl
@@ -539,6 +539,7 @@ class OAuth2Service(Service):
         :type \*\*kwargs: dict
         '''
         r = self.get_raw_access_token(method, **kwargs)
+        frappe.log_error('access token response',r)
         access_token, = process_token_request(r, decoder, key)
         return access_token
 
