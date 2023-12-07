@@ -156,7 +156,7 @@ def get_info_via_oauth(
 		frappe.log_error('session token',session.access_token)
 		#add access_token to api_endpoint_args
 		api_endpoint_args['access_token'] = session.access_token
-		api_endpoint_args['openid'] = session.access_token_response.content['openid']
+		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
 		info = session.get(api_endpoint, params=api_endpoint_args).json()
 		frappe.log_error('oauth info',info)
 		if provider == "github" and not info.get("email"):
