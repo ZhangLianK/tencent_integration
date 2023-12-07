@@ -261,6 +261,7 @@ def get_user_record(user: str, data: dict) -> "User":
 			"location": data.get("location"),
 			"user_type": "Website User",
 			"user_image": data.get("picture") or data.get("avatar_url"),
+			"send_welcome_email": 0,
 		}
 	)
 
