@@ -539,7 +539,7 @@ class OAuth2Service(Service):
         :type \*\*kwargs: dict
         '''
         r = self.get_raw_access_token(method, **kwargs)
-        frappe.log_error('access token response',r)
+        frappe.log_error('access token response',r.content)
         access_token, = process_token_request(r, decoder, key)
         return access_token
 
