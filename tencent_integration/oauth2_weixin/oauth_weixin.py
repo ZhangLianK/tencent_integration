@@ -157,11 +157,9 @@ def get_info_via_oauth(
 		#add access_token to api_endpoint_args
 		api_endpoint_args['access_token'] = session.access_token
 		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
-		info_wx = session.get(api_endpoint, params=api_endpoint_args)
-		frappe.log_error('oauth info_wx',info_wx)
+		info_ori = session.get(api_endpoint, params=api_endpoint_args)
 		# 将微信返回字符串进行ISO-8859-1解码，并编码为UTF-8类型
-		info = json.loads(info_wx.decode('ISO-8859-1').encode('utf-8'))
-
+		info = json.loads(info_ori.content.decode('ISO-8859-1'))
 		frappe.log_error('oauth info',info)
 		if provider == "github" and not info.get("email"):
 			emails = session.get("/user/emails", params=api_endpoint_args).json()
