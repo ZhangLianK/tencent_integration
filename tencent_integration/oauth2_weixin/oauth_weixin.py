@@ -159,7 +159,7 @@ def get_info_via_oauth(
 		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
 		api_endpoint_args['lang'] = 'zh_CN'
 		info_ori = session.get(api_endpoint, params=api_endpoint_args)
-		info_decoded = info_ori.content.decode('ISO-8859-1').encode('utf-8')
+		info_decoded = info_ori.content.decode('utf-8')
 		# 将微信返回字符串进行ISO-8859-1解码，并编码为UTF-8类型
 		info = json.loads(info_decoded)
   
@@ -312,6 +312,9 @@ def update_oauth_user(user: str, data: dict, provider: str):
 		if default_role := frappe.db.get_single_value("Portal Settings", "default_role"):
 			user.add_roles(default_role)
 
+		user.save()
+	else:
+		user.update({"first_name": get_first_name(data)})
 		user.save()
 
 
