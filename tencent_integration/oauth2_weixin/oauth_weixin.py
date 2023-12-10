@@ -169,7 +169,9 @@ def get_info_via_oauth(
 			email_dict = list(filter(lambda x: x.get("primary"), emails))[0]
 			info["email"] = email_dict.get("email")
 		if provider == "weixin":
-			info["email"] = info.get("openid") + '@qq.com'
+			#generate the email and lower case the value
+			info["email"] = info.get("openid").lower() + '@qq.com'
+			frappe.log_error('oauth info',info)
 
 	if not (info.get("email_verified") or info.get("email")):
 		frappe.throw(_("Email not verified with {0}").format(provider.title()))
@@ -198,6 +200,7 @@ def login_oauth_user(
 		return
 
 	user = get_email(data)
+	frappe.log_error('oauth user',user)
 
 	if not user:
 		frappe.respond_as_web_page(
@@ -313,9 +316,12 @@ def update_oauth_user(user: str, data: dict, provider: str):
 			user.add_roles(default_role)
 
 		user.save()
+		frappe.log_error('oauth user',user.name)
 	else:
 		user.update({"first_name": get_first_name(data)})
+		user.update({"username": data.get('openid')})
 		user.save( ignore_permissions=True)
+		frappe.log_error('oauth user',user.name)
 
 
 def get_first_name(data: dict) -> str:
