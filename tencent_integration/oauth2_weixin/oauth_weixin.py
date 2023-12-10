@@ -211,7 +211,8 @@ def login_oauth_user(
 			success=False,
 			http_status_code=403,
 		)
-
+  
+	frappe.local.login_manager.full_name = 'None'
 	frappe.local.login_manager.user = user
 	frappe.local.login_manager.post_login()
 
