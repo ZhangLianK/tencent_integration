@@ -212,7 +212,8 @@ def login_oauth_user(
 			http_status_code=403,
 		)
 
-	frappe.local.login_manager.login_as(user)
+	frappe.local.login_manager.user = user
+	frappe.local.login_manager.post_login()
 
 	# because of a GET request!
 	frappe.db.commit()
