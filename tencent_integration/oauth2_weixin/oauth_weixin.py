@@ -315,7 +315,7 @@ def update_oauth_user(user: str, data: dict, provider: str):
 		user.save()
 	else:
 		user.update({"first_name": get_first_name(data)})
-		user.save()
+		user.save( ignore_permissions=True)
 
 
 def get_first_name(data: dict) -> str:
