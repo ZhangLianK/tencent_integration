@@ -142,7 +142,7 @@ def get_info_via_oauth(
 		args["decoder"] = decoder
 
 	session = flow.get_auth_session(**args)
-	frappe.log_error('oauth session',session.access_token_response.content)
+	#frappe.log_error('oauth session',session.access_token_response.content)
 
 	if id_token:
 		parsed_access = json.loads(session.access_token_response.text)
@@ -152,8 +152,8 @@ def get_info_via_oauth(
 	else:
 		api_endpoint = oauth2_providers[provider].get("api_endpoint")
 		api_endpoint_args = oauth2_providers[provider].get("api_endpoint_args")
-		frappe.log_error('session token key',session.access_token_key)
-		frappe.log_error('session token',session.access_token)
+		#frappe.log_error('session token key',session.access_token_key)
+		#frappe.log_error('session token',session.access_token)
 		#add access_token to api_endpoint_args
 		api_endpoint_args['access_token'] = session.access_token
 		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
@@ -163,7 +163,7 @@ def get_info_via_oauth(
 		# 将微信返回字符串进行ISO-8859-1解码，并编码为UTF-8类型
 		info = json.loads(info_decoded)
   
-		frappe.log_error('oauth info',info)
+		#frappe.log_error('oauth info',info)
 		if provider == "github" and not info.get("email"):
 			emails = session.get("/user/emails", params=api_endpoint_args).json()
 			email_dict = list(filter(lambda x: x.get("primary"), emails))[0]
@@ -171,7 +171,7 @@ def get_info_via_oauth(
 		if provider == "weixin":
 			#generate the email and lower case the value
 			info["email"] = info.get("openid").lower() + '@qq.com'
-			frappe.log_error('oauth info',info)
+			#frappe.log_error('oauth info',info)
 
 	if not (info.get("email_verified") or info.get("email")):
 		frappe.throw(_("Email not verified with {0}").format(provider.title()))
@@ -200,7 +200,7 @@ def login_oauth_user(
 		return
 
 	user = get_email(data)
-	frappe.log_error('oauth user',user)
+	#frappe.log_error('oauth user',user)
 
 	if not user:
 		frappe.respond_as_web_page(
@@ -246,7 +246,16 @@ def login_oauth_user(
 
 def get_user_record(user: str, data: dict) -> "User":
 	try:
-		return frappe.get_doc("User", user)
+		# user already exists,get the user with the email
+		user_doc = frappe.get_doc("User", user)
+		if user_doc:
+			return user_doc
+		else:
+			#search the openid in doctype User Social Login 
+			user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":"weixin"}, fields=["parent"])
+			if user_list:
+				user_doc = frappe.get_doc("User", user_list[0].parent)
+				return user_doc
 	except frappe.DoesNotExistError:
 		if frappe.get_website_settings("disable_signup"):
 			raise SignupDisabledError
@@ -271,6 +280,7 @@ def get_user_record(user: str, data: dict) -> "User":
 			"user_type": "Website User",
 			"user_image": data.get("picture") or data.get("avatar_url"),
 			"send_welcome_email": 0,
+			"username": data.get('openid'),
 		}
 	)
 
@@ -316,12 +326,11 @@ def update_oauth_user(user: str, data: dict, provider: str):
 			user.add_roles(default_role)
 
 		user.save()
-		frappe.log_error('oauth user',user.name)
+		#frappe.log_error('oauth user',user.name)
 	else:
 		user.update({"first_name": get_first_name(data)})
-		user.update({"username": data.get('openid')})
 		user.save( ignore_permissions=True)
-		frappe.log_error('oauth user',user.name)
+		#frappe.log_error('oauth user',user.name)
 
 
 def get_first_name(data: dict) -> str:

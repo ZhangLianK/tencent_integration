@@ -539,7 +539,7 @@ class OAuth2Service(Service):
         :type \*\*kwargs: dict
         '''
         r = self.get_raw_access_token(method, **kwargs)
-        frappe.log_error('access token response',r.content)
+        #frappe.log_error('access token response',r.content)
         access_token, = process_token_request(r, decoder, key)
         return access_token
 
@@ -549,7 +549,7 @@ class OAuth2Service(Service):
         access token. Returns an instance of :attr:`session_obj`.
 
         :param method: A string representation of the HTTP method to be used,
-            defaults to `POST`.
+            defaults to `POST`.S
         :type method: str
         :param \*\*kwargs: Optional arguments. Same as Requests.
         :type \*\*kwargs: dict
