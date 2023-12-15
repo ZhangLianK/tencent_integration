@@ -1,69 +1,108 @@
 {
-    "autoname": "hash",
-    "creation": "2021-09-30 12:00:00.000000",
-    "doctype": "DocType",
-    "editable_grid": 1,
-    "engine": "InnoDB",
-    "fields": [
-        {
-            "fieldname": "company",
-            "fieldtype": "Link",
-            "label": "Company",
-            "options": "Company",
-            "reqd": 1
-        },
-        {
-            "fieldname": "phone_number_set",
-            "fieldtype": "JSON",
-            "label": "Phone Number Set",
-            "reqd": 1
-        },
-        {
-            "fieldname": "sms_sdk_app_id",
-            "fieldtype": "Data",
-            "label": "Sms SDK App ID",
-            "reqd": 1
-           },
-        {
-            "fieldname": "sign_name",
-            "fieldtype": "Data",
-            "label": "Sign Name",
-            "reqd": 1
-        },
-        {
-            "fieldname": "template_id",
-            "fieldtype": "Data",
-            "label": "Template ID",
-            "reqd": 1
-        },
-        {
-            "fieldname": "template_name",
-            "fieldtype": "Data",
-            "label": "Template Name"
-        },
-        {
-            "fieldname": "template_param_set",
-            "fieldtype": "JSON",
-            "label": "Template Param Set",
-            "reqd": 0
-        }
-    ],
-    "is_submittable": 1,
-    "modified": "2021-09-30 12:00:00.000000",
-    "modified_by": "Administrator",
-    "module": "Tencent Integration",
-    "name": "Tencent SMS Log",
-    "owner": "Administrator",
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "read": 1,
-            "role": "System Manager",
-            "write": 1
-        }
-    ],
-    "title_field": "sign_name"
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2021-09-30 12:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "status",
+  "phone_number_set",
+  "sms_sdk_app_id",
+  "sign_name",
+  "template_id",
+  "template_name",
+  "template_param_set",
+  "response",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "phone_number_set",
+   "fieldtype": "JSON",
+   "in_list_view": 1,
+   "label": "Phone Number Set",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sms_sdk_app_id",
+   "fieldtype": "Data",
+   "label": "Sms SDK App ID"
+  },
+  {
+   "fieldname": "sign_name",
+   "fieldtype": "Data",
+   "label": "Sign Name"
+  },
+  {
+   "fieldname": "template_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "label": "Template Name"
+  },
+  {
+   "fieldname": "template_param_set",
+   "fieldtype": "JSON",
+   "label": "Template Param Set"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tencent SMS Log",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "response",
+   "fieldtype": "JSON",
+   "label": "Response",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-11-28 19:22:06.211295",
+ "modified_by": "Administrator",
+ "module": "Tencent Integration",
+ "name": "Tencent SMS Log",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "sign_name"
 }

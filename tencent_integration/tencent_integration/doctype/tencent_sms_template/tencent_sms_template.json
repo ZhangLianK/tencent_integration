@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-11-28 19:35:02.851104",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "sms_template_usage",
+  "sms_template_id",
+  "sms_template_content",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "sms_template_usage",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "SMS Template Usage",
+   "options": "SMS Template Usage",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sms_template_id",
+   "fieldtype": "Data",
+   "label": "SMS Template Id"
+  },
+  {
+   "fieldname": "sms_template_content",
+   "fieldtype": "Long Text",
+   "label": "SMS Template Content"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tencent SMS Template",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-11-28 20:34:27.128377",
+ "modified_by": "Administrator",
+ "module": "Tencent Integration",
+ "name": "Tencent SMS Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

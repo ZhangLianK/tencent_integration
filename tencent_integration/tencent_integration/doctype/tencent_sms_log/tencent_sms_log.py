@@ -48,7 +48,34 @@ class TencentSMSLog(Document):
             req.from_json_string(json.dumps(params))
 
             resp = client.SendSms(req)
+            self.response = resp.to_json_string()
             print(resp.to_json_string())
+            if resp.SendStatusSet[0].Code == "Ok":
+                self.status = "Success"
+                
+            else:
+                self.status = "Failed"
+                frappe.log_error('SMS send failed', _(resp.SendStatusSet[0].Code + resp.SendStatusSet[0].Message))  
+            self.save(ignore_permissions=True)
 
         except TencentCloudSDKException as err:
-            frappe.throw(_(str(err)))
+            frappe.log_error(_("Failed to create SMS Log"),_(str(err)))
+
+
+def create_sms_log(company, sms_template_usage, phone_number_set, template_param_set):
+    #get template id from doctype Tencent SMS Template using company and sms_template_usage
+    try:
+        template_id = frappe.get_value("Tencent SMS Template", {"company": company, "sms_template_usage": sms_template_usage,"docstatus":1}, "sms_template_id")
+        if template_id:
+            sms_log = frappe.new_doc("Tencent SMS Log")
+            sms_log.company = company
+            sms_log.phone_number_set = phone_number_set
+            sms_log.template_id = template_id
+            sms_log.template_param_set = template_param_set
+            sms_log.save(ignore_permissions=True)
+            sms_log.submit()
+        else:
+            frappe.log_error('Template Id not found',_("No template found for the company {0} and sms_template_usage {1}").format(company, sms_template_usage))
+    except Exception as e:
+        frappe.log_error( _("Failed to create SMS Log"),frappe.get_traceback())
+        
