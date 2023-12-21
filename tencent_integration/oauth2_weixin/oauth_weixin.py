@@ -168,7 +168,7 @@ def get_info_via_oauth(
 			emails = session.get("/user/emails", params=api_endpoint_args).json()
 			email_dict = list(filter(lambda x: x.get("primary"), emails))[0]
 			info["email"] = email_dict.get("email")
-		if provider == "weixin":
+		if provider == "weixin" or provider == "weixin_pub":
 			#generate the email and lower case the value
 			info["email"] = info.get("openid").lower() + '@qq.com'
 			#frappe.log_error('oauth info',info)
