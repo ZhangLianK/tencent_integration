@@ -352,6 +352,6 @@ def redirect_post_login(
 
 
 	desk_uri = "/app/workspace" if provider == "facebook" else "/app"
-	redirect_to = frappe.utils.get_url(desk_uri if desk_user else "/contact")
+	redirect_to = frappe.utils.get_url(desk_uri if desk_user else "/shipping_list")
 
 	frappe.local.response["location"] = redirect_to
