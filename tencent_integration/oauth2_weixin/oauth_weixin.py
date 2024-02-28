@@ -328,8 +328,9 @@ def update_oauth_user(user: str, data: dict, provider: str):
 		user.save()
 		#frappe.log_error('oauth user',user.name)
 	else:
-		user.update({"first_name": get_first_name(data)})
-		user.save( ignore_permissions=True)
+		pass
+		#user.update({"first_name": get_first_name(data)})
+		#user.save( ignore_permissions=True)
 		#frappe.log_error('oauth user',user.name)
 
 
@@ -339,7 +340,6 @@ def get_first_name(data: dict) -> str:
 
 def get_last_name(data: dict) -> str:
 	return data.get("last_name") or data.get("family_name")
-
 
 def get_email(data: dict) -> str:
 	return data.get("email") or data.get("upn") or data.get("unique_name")
