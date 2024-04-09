@@ -244,7 +244,7 @@ def login_oauth_user(
 		)
 
 
-def get_user_record(user: str, data: dict) -> "User":
+def get_user_record(user: str, data: dict,provider: str) -> "User":
 	try:
 		# user already exists,get the user with the email
 		user_doc = frappe.get_doc("User", user)
@@ -252,7 +252,7 @@ def get_user_record(user: str, data: dict) -> "User":
 			return user_doc
 		else:
 			#search the openid in doctype User Social Login 
-			user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":"weixin"}, fields=["parent"])
+			user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
 			if user_list:
 				user_doc = frappe.get_doc("User", user_list[0].parent)
 				return user_doc
@@ -291,7 +291,7 @@ def update_oauth_user(user: str, data: dict, provider: str):
 	if isinstance(data.get("location"), dict):
 		data["location"] = data["location"].get("name")
 
-	user: "User" = get_user_record(user, data)
+	user: "User" = get_user_record(user, data,provider)
 	update_user_record = user.is_new()
 
 	if not user.enabled:
