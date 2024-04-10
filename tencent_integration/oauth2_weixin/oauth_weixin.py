@@ -250,12 +250,15 @@ def get_user_record(user: str, data: dict,provider: str) -> "User":
 		user_doc = frappe.get_doc("User", user)
 		if user_doc:
 			return user_doc
+			frappe.log_error('oauth user from email',user_doc.name)
 		else:
 			#search the openid in doctype User Social Login 
+			frappe.log_error('oauth user openid',data.get('openid') + ' provider:' + provider)
 			user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
 			if user_list:
 				user_doc = frappe.get_doc("User", user_list[0].parent)
 				return user_doc
+				frappe.log_error('oauth user from social login',user_doc.name)
 	except frappe.DoesNotExistError:
 		if frappe.get_website_settings("disable_signup"):
 			raise SignupDisabledError
@@ -324,9 +327,8 @@ def update_oauth_user(user: str, data: dict, provider: str):
 
 		if default_role := frappe.db.get_single_value("Portal Settings", "default_role"):
 			user.add_roles(default_role)
-
+		frappe.log_error('oauth user',user.name)
 		user.save()
-		#frappe.log_error('oauth user',user.name)
 	else:
 		pass
 		#user.update({"first_name": get_first_name(data)})
