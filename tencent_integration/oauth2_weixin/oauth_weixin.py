@@ -246,24 +246,25 @@ def login_oauth_user(
 
 def get_user_record(user: str, data: dict,provider: str) -> "User":
 	try:
-		# user already exists,get the user with the email
-		user_doc = frappe.get_doc("User", user)
-		if user_doc:
+		#search the openid in doctype User Social Login 
+		frappe.log_error('oauth user openid',data.get('openid') + ' provider:' + provider)
+		user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
+		if user_list:
+			user_doc = frappe.get_doc("User", user_list[0].parent)
+			frappe.log_error('oauth user from social login',user_doc.name)
 			return user_doc
-			frappe.log_error('oauth user from email',user_doc.name)
 		else:
-			#search the openid in doctype User Social Login 
-			frappe.log_error('oauth user openid',data.get('openid') + ' provider:' + provider)
-			user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
-			if user_list:
-				user_doc = frappe.get_doc("User", user_list[0].parent)
+			# user already exists,get the user with the email
+			user_doc = frappe.get_doc("User", user)
+			if user_doc:
+				frappe.log_error('oauth user from email',user_doc.name)
 				return user_doc
-				frappe.log_error('oauth user from social login',user_doc.name)
 	except frappe.DoesNotExistError:
 		if frappe.get_website_settings("disable_signup"):
 			raise SignupDisabledError
-
+	
 	user: "User" = frappe.new_doc("User")
+	frappe.log_error('oauth user new user',user_doc.name)
 
 	if gender := data.get("gender", "").title():
 		frappe.get_doc({"doctype": "Gender", "gender": gender}).insert(
