@@ -199,8 +199,13 @@ def login_oauth_user(
 		frappe.respond_as_web_page(_("Invalid Request"), _("Token is missing"), http_status_code=417)
 		return
 
-	user = get_email(data)
-	#frappe.log_error('oauth user',user)
+	user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
+	if user_list:
+		user_doc = frappe.get_doc("User", user_list[0].parent)
+		user=user_doc.name
+	else:
+		# user already exists,get the user with the email
+		user = get_email(data)
 
 	if not user:
 		frappe.respond_as_web_page(
@@ -219,7 +224,8 @@ def login_oauth_user(
 			success=False,
 			http_status_code=403,
 		)
-	frappe.log_error('oauth user before login manager post login',user)
+	#frappe.log_error('oauth user before login manager post login',user)
+ 
 	frappe.local.login_manager.full_name = 'None'
 	frappe.local.login_manager.user = user
 	frappe.local.login_manager.post_login()
@@ -247,24 +253,24 @@ def login_oauth_user(
 def get_user_record(user: str, data: dict,provider: str) -> "User":
 	try:
 		#search the openid in doctype User Social Login 
-		frappe.log_error('oauth user openid',data.get('openid') + ' provider:' + provider)
+		#frappe.log_error('oauth user openid',data.get('openid') + ' provider:' + provider)
 		user_list = frappe.get_all("User Social Login", filters={"userid": data.get('openid'),"provider":provider}, fields=["parent"])
 		if user_list:
 			user_doc = frappe.get_doc("User", user_list[0].parent)
-			frappe.log_error('oauth user from social login',user_doc.name)
+			#frappe.log_error('oauth user from social login',user_doc.name)
 			return user_doc
 		else:
 			# user already exists,get the user with the email
 			user_doc = frappe.get_doc("User", user)
 			if user_doc:
-				frappe.log_error('oauth user from email',user_doc.name)
+				#frappe.log_error('oauth user from email',user_doc.name)
 				return user_doc
 	except frappe.DoesNotExistError:
 		if frappe.get_website_settings("disable_signup"):
 			raise SignupDisabledError
 	
 	user: "User" = frappe.new_doc("User")
-	frappe.log_error('oauth user new user',user_doc.name)
+	#frappe.log_error('oauth user new user',user_doc.name)
 
 	if gender := data.get("gender", "").title():
 		frappe.get_doc({"doctype": "Gender", "gender": gender}).insert(
@@ -328,7 +334,7 @@ def update_oauth_user(user: str, data: dict, provider: str):
 
 		if default_role := frappe.db.get_single_value("Portal Settings", "default_role"):
 			user.add_roles(default_role)
-		frappe.log_error('oauth user',user.name)
+		#frappe.log_error('oauth user',user.name)
 		user.save()
 	else:
 		pass
