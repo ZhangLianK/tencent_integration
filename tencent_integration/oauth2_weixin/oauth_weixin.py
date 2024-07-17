@@ -142,9 +142,9 @@ def get_info_via_oauth(
 		args["decoder"] = decoder
 
 	if provider == "weixinmini":
-		args["token_key"] = "session_key"
+		args["data"]["token_key"] = "session_key"	
 	else:
-		args["token_key"] = "access_token"
+		args["data"]["token_key"] = "access_token"
 
 	session = flow.get_auth_session(**args)
 	frappe.log_error('oauth session',session.access_token_response.content)
