@@ -142,7 +142,8 @@ def get_info_via_oauth(
 		args["decoder"] = decoder
 
 	if provider == "weixinmini":
-		args["data"]["token_key"] = "session_key"	
+		args["data"]["token_key"] = "session_key"
+		args["data"]["js_code"] = code	
 	else:
 		args["data"]["token_key"] = "access_token"
 
