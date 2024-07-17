@@ -141,8 +141,13 @@ def get_info_via_oauth(
 	if decoder:
 		args["decoder"] = decoder
 
+	if provider == "weixinmini":
+		args["token_key"] = "session_key"
+	else:
+		args["token_key"] = "access_token"
+
 	session = flow.get_auth_session(**args)
-	#frappe.log_error('oauth session',session.access_token_response.content)
+	frappe.log_error('oauth session',session.access_token_response.content)
 
 	if id_token:
 		parsed_access = json.loads(session.access_token_response.text)
@@ -152,8 +157,8 @@ def get_info_via_oauth(
 	else:
 		api_endpoint = oauth2_providers[provider].get("api_endpoint")
 		api_endpoint_args = oauth2_providers[provider].get("api_endpoint_args")
-		#frappe.log_error('session token key',session.access_token_key)
-		#frappe.log_error('session token',session.access_token)
+		frappe.log_error('session token key',session.access_token_key)
+		frappe.log_error('session token',session.access_token)
 		#add access_token to api_endpoint_args
 		api_endpoint_args['access_token'] = session.access_token
 		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
@@ -168,7 +173,7 @@ def get_info_via_oauth(
 			emails = session.get("/user/emails", params=api_endpoint_args).json()
 			email_dict = list(filter(lambda x: x.get("primary"), emails))[0]
 			info["email"] = email_dict.get("email")
-		if provider == "weixin" or provider == "weixin_pub":
+		if provider == "weixin" or provider == "weixin_pub" or provider == "weixinmini":
 			#generate the email and lower case the value
 			info["email"] = info.get("openid").lower() + '@qq.com'
 			#frappe.log_error('oauth info',info)
