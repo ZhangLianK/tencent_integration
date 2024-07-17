@@ -513,6 +513,8 @@ class OAuth2Service(Service):
                             'secret': self.client_secret})
 
         session = self.get_session()
+        frappe.log_error('access token url',self.access_token_url)
+        frappe.log_error('kwargs',kwargs)
         self.access_token_response = session.request(method,
                                                      self.access_token_url,
                                                      **kwargs)
