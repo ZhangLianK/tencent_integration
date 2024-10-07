@@ -245,7 +245,9 @@ def login_oauth_user(
 		generate_login_token: bool = True
 
 	if frappe.utils.cint(generate_login_token):
+		frappe.log_error('generate login token')
 		login_token = frappe.generate_hash(length=32)
+		frappe.log_error('token',login_token)
 		frappe.cache().set_value(
 			f"login_token:{login_token}", frappe.local.session.sid, expires_in_sec=120
 		)
