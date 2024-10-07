@@ -111,6 +111,7 @@ def get_redirect_uri(provider: str) -> str:
 
 def login_via_oauth2(provider: str, code: str, state: str, decoder: Callable | None = None):
 	info = get_info_via_oauth(provider, code, decoder)
+	frappe.log_error('oauth info',info)
 	login_oauth_user(info, provider=provider, state=state)
 
 
@@ -196,10 +197,10 @@ def login_oauth_user(
 	key: str | None = None,
 	generate_login_token: bool = False,
 ):
+	frappe.log_error('oauth data',data)
 	# json.loads data and state
 	if isinstance(data, str):
 		data = json.loads(data)
-		frappe.log_error('oauth data',data)
 
 	if isinstance(state, str):
 		state = base64.b64decode(state)
