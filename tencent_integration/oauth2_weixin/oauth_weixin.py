@@ -112,6 +112,7 @@ def get_redirect_uri(provider: str) -> str:
 def login_via_oauth2(provider: str, code: str, state: str, decoder: Callable | None = None):
 	info = get_info_via_oauth(provider, code, decoder)
 	frappe.log_error('oauth info',info)
+	rappe.log_error('oauth state',state)
 	login_oauth_user(info, provider=provider, state=state)
 
 
