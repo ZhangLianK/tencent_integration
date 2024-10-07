@@ -208,7 +208,7 @@ def login_oauth_user(
 		state = base64.b64decode(state)
 		state = json.loads(state.decode("utf-8"))
 
-	if not (state and state["token"]):
+	if not (state and state["token"]) and provider != "weixinmini":
 		frappe.respond_as_web_page(_("Invalid Request"), _("Token is missing"), http_status_code=417)
 		return
 
