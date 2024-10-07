@@ -198,6 +198,7 @@ def login_oauth_user(
 	generate_login_token: bool = False,
 ):
 	frappe.log_error('oauth data',data)
+	frappe.log_error('oauth state',state)
 	# json.loads data and state
 	if isinstance(data, str):
 		data = json.loads(data)
