@@ -199,6 +199,7 @@ def login_oauth_user(
 	# json.loads data and state
 	if isinstance(data, str):
 		data = json.loads(data)
+		frappe.log_error('oauth data',data)
 
 	if isinstance(state, str):
 		state = base64.b64decode(state)
@@ -238,6 +239,7 @@ def login_oauth_user(
 	frappe.local.login_manager.full_name = 'None'
 	frappe.local.login_manager.user = user
 	frappe.local.login_manager.post_login()
+	frappe.log_error('Logged In',frappe.local.response.get("message") == "Logged In")
 
 	# because of a GET request!
 	frappe.db.commit()
