@@ -224,6 +224,7 @@ def login_oauth_user(
 		)
 		return
 
+	frappe.log_error('oauth user',user)
 	try:
 		if update_oauth_user(user, data, provider) is False:
 			return
