@@ -164,10 +164,13 @@ def get_info_via_oauth(
 		api_endpoint_args['access_token'] = session.access_token
 		api_endpoint_args['openid'] = session.access_token_response.json().get('openid')
 		api_endpoint_args['lang'] = 'zh_CN'
-		info_ori = session.get(api_endpoint, params=api_endpoint_args)
-		info_decoded = info_ori.content.decode('utf-8')
-		# 将微信返回字符串进行ISO-8859-1解码，并编码为UTF-8类型
-		info = json.loads(info_decoded)
+		if provider == "weixinmini":
+			info = json.loads(session.access_token_response.content)
+		else:
+			info_ori = session.get(api_endpoint, params=api_endpoint_args)
+			info_decoded = info_ori.content.decode('utf-8')
+			# 将微信返回字符串进行ISO-8859-1解码，并编码为UTF-8类型
+			info = json.loads(info_decoded)
   
 		#frappe.log_error('oauth info',info)
 		if provider == "github" and not info.get("email"):
@@ -362,7 +365,12 @@ def get_email(data: dict) -> str:
 
 def redirect_post_login(
 	desk_user: bool, redirect_to: str | None = None, provider: str | None = None
-):
+):	
+	if provider == "weixinmini":
+		frappe.local.response["type"] = "redirect"
+		frappe.local.response["location"] = "/app"
+		return
+	
 	frappe.local.response["type"] = "redirect"
 
 
