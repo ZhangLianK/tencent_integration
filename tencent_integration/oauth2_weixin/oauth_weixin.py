@@ -241,6 +241,8 @@ def login_oauth_user(
 
 	# because of a GET request!
 	frappe.db.commit()
+	if provider == "weixinmini":
+		generate_login_token: bool = True
 
 	if frappe.utils.cint(generate_login_token):
 		login_token = frappe.generate_hash(length=32)
@@ -365,14 +367,9 @@ def get_email(data: dict) -> str:
 
 def redirect_post_login(
 	desk_user: bool, redirect_to: str | None = None, provider: str | None = None
-):	
-	if provider == "weixinmini":
-		frappe.local.response["type"] = "redirect"
-		frappe.local.response["location"] = "/app"
-		return
+):
 	
 	frappe.local.response["type"] = "redirect"
-
 
 	desk_uri = "/app/workspace" if provider == "facebook" else "/app"
 	redirect_to = frappe.utils.get_url(desk_uri if desk_user else "/shipping_list")
